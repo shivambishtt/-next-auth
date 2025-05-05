@@ -33,13 +33,15 @@ export const UserSchema: Schema<User> = new Schema({
     },
     isVerified: {
         type: Boolean,
+        default: false
     },
     isAdmin: {
-        type: Boolean
+        type: Boolean,
+        default: false
     }
 
 })
 
-const UserModel = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema)
+const User = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema)
 
-export default UserModel 
+export default User 
