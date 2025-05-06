@@ -19,7 +19,7 @@ const connectDB = async (): Promise<void> => {
         console.log("MONGO DB connected successfully");
     } catch (error) {
         console.log("Mongo DB connection error", error);
-        process.exit(1)
+        process.exit()
     }
 }
 export default connectDB
