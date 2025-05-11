@@ -9,7 +9,6 @@ connectDB()
 export async function POST(request: NextRequest) {
     try {
         const { username, email, password } = await request.json()
-        console.log(username, email, password)
         const user = await User.findOne({ email })
         if (user) {
             return NextResponse.json({ error: "User with this email already exists" }, { status: 500 })

@@ -2,9 +2,11 @@ import { Html, Head, Font, Preview, Heading, Row, Section, Text, Button } from '
 
 interface VerificationEmailProps {
     username: string;
+    verifyCode: number
+
 }
 
-export default function VerificationEmail({ username }: VerificationEmailProps) {
+export default function VerificationEmail({ username, verifyCode }: VerificationEmailProps) {
     return (
         <div>
             <Html lang="en" dir="ltr">
@@ -21,7 +23,7 @@ export default function VerificationEmail({ username }: VerificationEmailProps) 
                         fontStyle="normal"
                     />
                 </Head>
-                <Preview>Here&apos;s your verification code: {otp}</Preview>
+                <Preview>Here&apos;s your verification code: {verifyCode}</Preview>
                 <Section>
                     <Row>
                         <Heading as="h2">Hello {username},</Heading>

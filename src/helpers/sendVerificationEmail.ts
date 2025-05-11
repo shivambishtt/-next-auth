@@ -8,7 +8,7 @@ export async function sendVerificationEmail(email: string, username: string, ver
             from: 'onboarding@resend.dev',
             to: email,
             subject: 'Verification Email',
-            react: VerificationEmail({ username, otp: verifyCode }),
+            react: VerificationEmail({ username, verifyCode }),
         });
         return { success: true, message: "Verification email sent successfully" }
     } catch (emailError) {

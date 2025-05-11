@@ -7,6 +7,7 @@ export interface User extends Document {
     fullname: string,
     isVerified: boolean,
     isAdmin: boolean,
+    verifyCode: number,
     forgotPasswordToken: string,
     forgotPasswordTokenExpiry: Date,
     verifyToken: string,
@@ -38,6 +39,9 @@ export const UserSchema: Schema<User> = new Schema({
     isAdmin: {
         type: Boolean,
         default: false
+    },
+    verifyCode:{
+        type:Number,
     }
 
 })
