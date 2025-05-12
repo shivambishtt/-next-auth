@@ -1,4 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose"
+import jwt from "jsonwebtoken"
+
 
 export interface User extends Document {
     username: string,
@@ -10,8 +12,8 @@ export interface User extends Document {
     verifyCode: number,
     forgotPasswordToken: string,
     forgotPasswordTokenExpiry: Date,
-    verifyToken: string,
-    verifyTokenExpriy: Date,
+    verifyToken?: string,
+    verifyTokenExpiry: Date,
 }
 
 export const UserSchema: Schema<User> = new Schema({
@@ -40,11 +42,34 @@ export const UserSchema: Schema<User> = new Schema({
         type: Boolean,
         default: false
     },
-    verifyCode:{
-        type:Number,
+    verifyCode: {
+        type: Number,
+    },
+    verifyToken: {
+        type: String
+    },
+    verifyTokenExpiry: {
+        type: Date
+    },
+    forgotPasswordToken: {
+        type: String
+    },
+    forgotPasswordTokenExpiry: {
+        type: Date
     }
 
 })
+
+UserSchema.methods.generateAccessToken = function (): string {
+    return jwt.sign({
+        _id: this._id,
+        email: this.email,
+        username: this.username,
+    },
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
+    )
+}
 
 const User = (mongoose.models.User as mongoose.Model<User>) || mongoose.model<User>("User", UserSchema)
 
