@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose"
 import jwt from "jsonwebtoken"
+import { NextResponse } from "next/server"
 
 
 export interface User extends Document {
@@ -61,13 +62,33 @@ export const UserSchema: Schema<User> = new Schema({
 })
 
 UserSchema.methods.generateAccessToken = function (): string {
+    const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
+    const accessTokenExpiry = process.env.ACCESS_TOKEN_EXPIRY
+
+    if (!accessTokenSecret || !accessTokenExpiry) {
+        throw new Error("Access token secret undefined or not loaded properly")
+    }
     return jwt.sign({
         _id: this._id,
         email: this.email,
         username: this.username,
     },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
+        accessTokenSecret,
+        { expiresIn: accessTokenExpiry }
+    )
+}
+UserSchema.methods.generateRefreshToken = function (): string {
+    const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
+    const refreshTokenExpiry = process.env.REFRESH_TOKEN_EXPIRY
+
+    if (!refreshTokenSecret || !refreshTokenExpiry) {
+        throw new Error("Refresh token secret undefined or not loaded properly")
+    }
+    return jwt.sign({
+        _id: this._id
+    },
+        refreshTokenSecret,
+        { expiresIn: refreshTokenExpiry }
     )
 }
 
