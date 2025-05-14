@@ -7,6 +7,18 @@ import jwt from "jsonwebtoken"
 
 connectDB()
 
+export async function generateAccessAndRefreshToken(userId) {
+    const user = await User.findById(userId) // find by id in TS returns null if not found
+    if (!user) {
+        return NextResponse.json({ message: "User not found" }, { status: 400 })
+    }
+    const accessToken = user.generateAccessToken()
+    const refreshToken = user.generateRefreshToken()
+    user.refreshToken = refreshToken
+    await user.save({ validateBeforeSave: false })
+    return { accessToken, refreshToken }
+}
+
 export async function POST(request: NextRequest) {
     try {
         const { email, password } = await request.json()
@@ -22,6 +34,13 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Invalid user credentials" }, { status: 400 })
         }
 
+        const { accessToken, refreshToken } = await generateAccessAndRefreshToken(user._id)
+        const options = {
+            httpOnly: true,
+            secure: true,
+        };
+
+        return NextResponse.json({ message: "User logged in sucessfully" })
     } catch (error: any) {
         return NextResponse.json({ message: error.message }, { status: 400 })
 

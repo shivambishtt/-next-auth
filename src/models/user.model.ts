@@ -11,10 +11,14 @@ export interface User extends Document {
     isVerified: boolean,
     isAdmin: boolean,
     verifyCode: number,
+    accessToken: string,
+    refreshToken: string,
     forgotPasswordToken: string,
     forgotPasswordTokenExpiry: Date,
     verifyToken?: string,
     verifyTokenExpiry: Date,
+    generateAccessToken: () => string,
+    generateRefreshToken: () => string,
 }
 
 export const UserSchema: Schema<User> = new Schema({
@@ -57,11 +61,11 @@ export const UserSchema: Schema<User> = new Schema({
     },
     forgotPasswordTokenExpiry: {
         type: Date
-    }
+    },
 
 })
 
-UserSchema.methods.generateAccessToken = function (): string {
+UserSchema.methods.generateAccessToken = function () {
     const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
     const accessTokenExpiry = process.env.ACCESS_TOKEN_EXPIRY
 
