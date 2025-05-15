@@ -1,6 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose"
 import jwt from "jsonwebtoken"
-import { NextResponse } from "next/server"
 
 
 export interface User extends Document {

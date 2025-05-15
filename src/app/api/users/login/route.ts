@@ -3,7 +3,6 @@ import User from "@/models/user.model";
 import bcrypt from "bcrypt"
 import { NextRequest, NextResponse } from "next/server"
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
-import jwt from "jsonwebtoken"
 
 connectDB()
 
@@ -39,8 +38,18 @@ export async function POST(request: NextRequest) {
             httpOnly: true,
             secure: true,
         };
+        if (!accessToken || !refreshToken) {
+            return NextResponse.json({ message: "Unable to fetch token" })
+        }
 
-        return NextResponse.json({ message: "User logged in sucessfully" })
+        const response = NextResponse.json(
+            { message: "User logged in sucessfully", success: true },
+            { status: 200 },
+        )
+        response.cookies.set("accessToken", accessToken, options)
+        response.cookies.set("refreshToken", refreshToken, options)
+
+        return response
     } catch (error: any) {
         return NextResponse.json({ message: error.message }, { status: 400 })
 
