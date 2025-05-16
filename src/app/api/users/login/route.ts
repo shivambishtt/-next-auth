@@ -2,7 +2,6 @@ import connectDB from "@/db/dbConnect";
 import User from "@/models/user.model";
 import bcrypt from "bcrypt"
 import { NextRequest, NextResponse } from "next/server"
-import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 
 connectDB()
 
@@ -50,7 +49,7 @@ export async function POST(request: NextRequest) {
         response.cookies.set("refreshToken", refreshToken, options)
 
         return response
-    } catch (error: any) {
+    } catch (error: unknown) {
         return NextResponse.json({ message: error.message }, { status: 400 })
 
     }
