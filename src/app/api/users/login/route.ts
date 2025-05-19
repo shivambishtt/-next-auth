@@ -41,10 +41,7 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ message: "Unable to fetch token" })
         }
 
-        const response = NextResponse.json(
-            { message: "User logged in sucessfully", success: true },
-            { status: 200 },
-        )
+        const response = NextResponse.json({ message: "User logged in sucessfully", success: true, user }, { status: 200 })
         response.cookies.set("accessToken", accessToken, options)
         response.cookies.set("refreshToken", refreshToken, options)
 
