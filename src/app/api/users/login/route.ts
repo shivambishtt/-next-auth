@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server"
 
 connectDB()
 
-export async function generateAccessAndRefreshToken(userId) {
+export async function generateAccessAndRefreshToken(userId:number) {
     const user = await User.findById(userId) // find by id in TS returns null if not found
     if (!user) {
         return NextResponse.json({ message: "User not found" }, { status: 400 })

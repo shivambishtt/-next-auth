@@ -13,7 +13,7 @@ export async function GET() {
         response.cookies.set("refreshToken", "", options)
 
         return response
-    } catch (error) {
+    } catch (error: any) {
         return NextResponse.json({ message: error.message }, { status: 400 })
 
     }
