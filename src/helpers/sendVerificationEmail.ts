@@ -2,7 +2,7 @@ import { resend } from "@/utils/resend"
 import VerificationEmail from "@/emails/VerificationEmail"
 
 
-export async function sendVerificationEmail(email: string, username: string, verifyCode?: string) {
+export async function sendVerificationEmail(email: string, username: string, verifyCode?: number) {
     try {
         await resend.emails.send({
             from: 'onboarding@resend.dev',

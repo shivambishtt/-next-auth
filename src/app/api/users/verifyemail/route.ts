@@ -6,12 +6,13 @@ connectDB()
 
 export async function POST(request: NextRequest) {
     try {
-        const { token } = await request.json()
-        const user = await User.findOne({ verifyToken: token, verifyTokenExpiry: { $gt: Date.now() } })
+        const { verifyCode } = await request.json()
+        const user = await User.findOne({ verifyToken: verifyCode, verifyTokenExpiry: { $gt: Date.now()} })
+        console.log(user);
+        
         if (!user) {
             return NextResponse.json({ message: "Invalid access token" }, { status: 400 })
         }
-        console.log(user, "user");
         user.isVerified = true
         user.verifyToken = undefined
         await user.save()

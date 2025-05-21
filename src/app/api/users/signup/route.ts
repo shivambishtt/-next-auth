@@ -15,12 +15,14 @@ export async function POST(request: NextRequest) {
         }
         const hashedPassword = await bcrypt.hash(password, 10)
 
+        const verifyCode = Math.floor(100000 + Math.random() * 900000)
         const createUser = await User.create({
             username,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            verifyCode
         })
-        const verifyemail = await sendVerificationEmail(email, username)
+        const verifyemail = await sendVerificationEmail(email, username, verifyCode)
         if (!verifyemail.success) {
             return NextResponse.json({ message: "Error occured while sending the email", success: false, status: 500 })
         }

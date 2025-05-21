@@ -1,4 +1,4 @@
-import { Html, Head, Font, Preview, Heading, Row, Section, Text, Button } from '@react-email/components';
+import { Html, Head, Font, Preview, Heading, Row, Section, Text } from '@react-email/components';
 
 interface VerificationEmailProps {
     username: string;
@@ -23,7 +23,7 @@ export default function VerificationEmail({ username, verifyCode }: Verification
                         fontStyle="normal"
                     />
                 </Head>
-                <Preview>Here&apos;s your verification code: {verifyCode}</Preview>
+                <Preview>Here&apos;s your verification code: {`${verifyCode}`}</Preview>
                 <Section>
                     <Row>
                         <Heading as="h2">Hello {username},</Heading>
