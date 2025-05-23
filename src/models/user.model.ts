@@ -15,7 +15,7 @@ export interface User extends Document {
     forgotPasswordToken: string,
     forgotPasswordTokenExpiry: Date,
     verifyToken?: string,
-    verifyTokenExpiry: Date,
+    verifyCodeExpiry: Date,
     generateAccessToken: () => string,
     generateRefreshToken: () => string,
 }
@@ -49,11 +49,11 @@ export const UserSchema: Schema<User> = new Schema({
     verifyCode: {
         type: Number,
     },
+    verifyCodeExpiry: {
+        type: Date
+    },
     verifyToken: {
         type: String
-    },
-    verifyTokenExpiry: {
-        type: Date
     },
     forgotPasswordToken: {
         type: String

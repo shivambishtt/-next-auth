@@ -9,9 +9,9 @@ connectDB()
 export async function POST(request: NextRequest) {
     try {
         const { username, email, password } = await request.json()
-        const user = await User.findOne({ email })
+        const user = await User.findOne({ email, isVerified: true })
         if (user) {
-            return NextResponse.json({ error: "User with this email already exists" }, { status: 500 })
+            return NextResponse.json({ error: "User with this email already exists" }, { status: 400 })
         }
         const hashedPassword = await bcrypt.hash(password, 10)
 
@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
             password: hashedPassword,
             verifyCode
         })
+        
         const verifyemail = await sendVerificationEmail(email, username, verifyCode)
         if (!verifyemail.success) {
             return NextResponse.json({ message: "Error occured while sending the email", success: false, status: 500 })
