@@ -9,7 +9,7 @@ export interface User extends Document {
     fullname: string,
     isVerified: boolean,
     isAdmin: boolean,
-    verifyCode: number,
+    verifyCode: string,
     accessToken: string,
     refreshToken: string,
     forgotPasswordToken: string,
@@ -47,7 +47,7 @@ export const UserSchema: Schema<User> = new Schema({
         default: false
     },
     verifyCode: {
-        type: Number,
+        type: String,
     },
     verifyCodeExpiry: {
         type: Date

@@ -2,7 +2,7 @@ import { Html, Head, Font, Preview, Heading, Row, Section, Text } from '@react-e
 
 interface VerificationEmailProps {
     username: string;
-    verifyCode: number
+    verifyCode: string
 
 }
 
