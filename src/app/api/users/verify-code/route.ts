@@ -12,7 +12,7 @@ export async function POST(request: Request) {
             return Response.json(
                 {
                     success: false,
-                    message: "User not found in database"
+                    message: "User with this username does not exists"
                 },
                 {
                     status: 404
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
             )
         }
         const isCodeValid = user.verifyCode === verifyCode
-        const isCodeExpired = new Date(user.verifyCodeExpiry) > new Date()
+        const isCodeExpired = user.verifyCodeExpiry > new Date()
         if (isCodeValid && isCodeExpired) {
             user.isVerified = true
             await user.save()

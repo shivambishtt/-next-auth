@@ -23,7 +23,7 @@ export default function VerificationEmail({ username, verifyCode }: Verification
                         fontStyle="normal"
                     />
                 </Head>
-                <Preview>Here&apos;s your verification code: {`${verifyCode}`}</Preview>
+                <Preview>Here&apos;s your verification code: {verifyCode.toString()}</Preview>
                 <Section>
                     <Row>
                         <Heading as="h2">Hello {username},</Heading>
@@ -37,6 +37,16 @@ export default function VerificationEmail({ username, verifyCode }: Verification
                     <Row>
                         <Text>
                             If you did not request this code, please ignore this email.
+                        </Text>
+                    </Row>
+
+                    <Row>
+                        <Text>
+                            <strong>
+                                <h1>
+                                    {verifyCode}
+                                </h1>
+                            </strong>
                         </Text>
                     </Row>
                 </Section>
